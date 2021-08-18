@@ -1,13 +1,9 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-export const createMockStore = () =>
+import { initialState } from '../../redux/url/urlSlice';
+
+export const createMockStore = (initialUrlState = initialState) =>
   configureStore([thunk])({
-    url: {
-      loadingList: false,
-      allUrl: [],
-      addingUrl: false,
-      tempUrlInfo: null,
-      addUrlError: null,
-    },
+    url: initialUrlState,
   });
