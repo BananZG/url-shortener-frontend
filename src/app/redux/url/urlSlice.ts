@@ -72,6 +72,7 @@ export const urlSlice = createSlice({
         ...state,
         addingUrl: false,
         tempUrlInfo: null,
+        addUrlError: null,
       };
     },
   },

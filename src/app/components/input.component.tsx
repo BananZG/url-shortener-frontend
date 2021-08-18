@@ -58,7 +58,11 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
         )}
       </Box>
       {!!newUrl && (
-        <Alert data-testid="new-url-success-alert" severity="success" onClose={onClear}>
+        <Alert
+          data-testid="new-url-success-alert"
+          severity="success"
+          onClose={onClear}
+        >
           <AlertTitle>Success</AlertTitle>
           Generated:{' '}
           <Link href={newUrl.shortUrl} target="_blank">
@@ -67,7 +71,11 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
         </Alert>
       )}
       {!!newUrlError && (
-        <Alert data-testid="new-url-error-alert" severity="error" onClose={onClear}>
+        <Alert
+          data-testid="new-url-error-alert"
+          severity="error"
+          onClose={onClear}
+        >
           <AlertTitle>Error</AlertTitle>
           Generation failed: {newUrlError}
         </Alert>
