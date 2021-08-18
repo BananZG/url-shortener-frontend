@@ -2,6 +2,7 @@ import type { FC, ReactElement } from 'react';
 
 import React from 'react';
 import {
+  Link,
   Table,
   TableBody,
   TableCell,
@@ -10,7 +11,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import { config, rows } from './config';
+import { CellType, config, formatDate, rows } from './config';
 
 export const TableComponent: FC = ({}): ReactElement => {
   return (
@@ -27,10 +28,20 @@ export const TableComponent: FC = ({}): ReactElement => {
           {(rows.length > 0 &&
             rows.map((row, i) => (
               <TableRow key={i}>
-                {config.map(({ key, formatter }) => {
-                  let value = row[key];
-                  if (formatter) {
-                    value = formatter(value);
+                {config.map(({ key, type }) => {
+                  let value: any = row[key];
+                  switch (type) {
+                    case CellType.Label:
+                      break;
+                    case CellType.Date:
+                      value = formatDate(value);
+                      break;
+                    case CellType.Link:
+                      value = (
+                        <Link href={value} target="_blank">
+                          {value}
+                        </Link>
+                      );
                   }
                   return (
                     <TableCell component="th" key={key}>
