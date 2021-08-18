@@ -1,10 +1,21 @@
 import type { FC, ReactElement } from 'react';
 
 import React, { useState } from 'react';
-import { Box, BoxProps, Button, TextField } from '@material-ui/core';
+import {
+  Box,
+  BoxProps,
+  Button,
+  CircularProgress,
+  IconButton,
+  TextField,
+} from '@material-ui/core';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { addUrl } from '../redux/url/urlSlice';
 
 export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
   const [url, setUrl] = useState('');
+  const loading = useAppSelector((state) => state.url.addingUrl);
+  const dispatch = useAppDispatch();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(event.target.value);
   };
@@ -18,15 +29,21 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
           value={url}
           onChange={handleChange}
         />
-        <Button
-          variant="outlined"
-          onClick={() => {
-            console.log(url);
-            setUrl('');
-          }}
-        >
-          Go!
-        </Button>
+        {(loading && (
+          <IconButton>
+            <CircularProgress />
+          </IconButton>
+        )) || (
+          <Button
+            variant="outlined"
+            onClick={() => {
+              dispatch(addUrl(url));
+              setUrl('');
+            }}
+          >
+            Go!
+          </Button>
+        )}
       </Box>
     </Box>
   );

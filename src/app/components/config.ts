@@ -17,7 +17,7 @@ export enum CellType {
   Link,
 }
 
-type CellConfig = {
+export type CellConfig = {
   key: keyof URL;
   label: string;
   type: CellType;
@@ -58,24 +58,3 @@ export const config: CellConfig[] = [
 
 export const formatDate = (date: string | Date): string =>
   moment(date).format(dateFormat);
-
-export const rows: URL[] = [
-  {
-    _id: '611c72463ad4baf21dad498f',
-    longUrl:
-      'https://blog.gds-gov.tech/terragrunt-in-retro-i-would-have-done-these-few-things-e5aaac451942',
-    shortUrl: 'http://localhost:XXXX/gL6bm_LWJ',
-    shortenId: 'gL6bm_LWJ',
-    created_date: new Date(),
-    expiry_date: new Date(),
-  },
-  {
-    _id: '611c72b83ad4baf21dad4992',
-    longUrl:
-      'https://blog.gds-gov.tech/terragrunt-in-retro-i-would-have-done-these-few-things-e5aaac451942',
-    shortUrl: 'http://localhost:XXXX/HZyZz3IOH',
-    shortenId: 'HZyZz3IOH',
-    created_date: new Date(),
-    expiry_date: new Date(),
-  },
-];

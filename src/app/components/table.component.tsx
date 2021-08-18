@@ -1,8 +1,7 @@
-import type { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 
 import React from 'react';
 import {
-  Link,
   Table,
   TableBody,
   TableCell,
@@ -11,9 +10,18 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import { CellType, config, formatDate, rows } from './config';
+import { config } from './config';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { fetchAllUrls } from '../redux/url/urlSlice';
+import { TableBodyRows } from './table-body-rows.component';
 
 export const TableComponent: FC = ({}): ReactElement => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchAllUrls());
+  }, [dispatch]);
+  const rows = useAppSelector((state) => state.url.allUrl);
+  const loading = useAppSelector((state) => state.url.loadingList);
   return (
     <TableContainer>
       <Table stickyHeader>
@@ -25,36 +33,7 @@ export const TableComponent: FC = ({}): ReactElement => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rows.length > 0 &&
-            rows.map((row, i) => (
-              <TableRow key={i}>
-                {config.map(({ key, type }) => {
-                  let value: any = row[key];
-                  switch (type) {
-                    case CellType.Label:
-                      break;
-                    case CellType.Date:
-                      value = formatDate(value);
-                      break;
-                    case CellType.Link:
-                      value = (
-                        <Link href={value} target="_blank">
-                          {value}
-                        </Link>
-                      );
-                  }
-                  return (
-                    <TableCell component="th" key={key}>
-                      {value}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))) || (
-            <TableRow>
-              <TableCell>NO DATA</TableCell>
-            </TableRow>
-          )}
+          <TableBodyRows loading={loading} rows={rows} config={config} />
         </TableBody>
       </Table>
     </TableContainer>
