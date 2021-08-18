@@ -67,11 +67,24 @@ export const urlSlice = createSlice({
         addUrlError: action.payload,
       };
     },
+    clearAddUrlState: (state) => {
+      return {
+        ...state,
+        addingUrl: false,
+        tempUrlInfo: null,
+      };
+    },
   },
 });
 
-const { loadingList, urlsReceived, addUrlStart, addUrlSuccess, addUrlFailure } =
-  urlSlice.actions;
+export const {
+  loadingList,
+  urlsReceived,
+  addUrlStart,
+  addUrlSuccess,
+  addUrlFailure,
+  clearAddUrlState,
+} = urlSlice.actions;
 
 export const fetchAllUrls = () => async (dispatch: Dispatch) => {
   dispatch(loadingList());
@@ -89,7 +102,11 @@ export const addUrl = (longUrl: string) => async (dispatch: Dispatch) => {
     dispatch(addUrlSuccess(newUrl));
     fetchAllUrls()(dispatch);
   } catch (error) {
-    dispatch(addUrlFailure(error));
+    if (error.response) {
+      dispatch(addUrlFailure(error.response.data.message));
+    } else {
+      dispatch(addUrlFailure(error.message));
+    }
   }
 };
 
