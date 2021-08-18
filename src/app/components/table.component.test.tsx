@@ -1,19 +1,19 @@
 import React from 'react';
-import configureStore from 'redux-mock-store';
-import { mount, ReactWrapper } from 'enzyme';
 import { Provider } from 'react-redux';
+import { shallow, ShallowWrapper } from 'enzyme';
+import { Table, TableBody } from '@material-ui/core';
 
-import App from './App';
+import { TableComponent } from './table.component';
 import { createMockStore } from '../utils/test/mockStore';
 
-describe('App', () => {
-  let wrapper: ReactWrapper;
+describe('TableComponent', () => {
+  let wrapper: ShallowWrapper;
   const mockStore = createMockStore();
 
   beforeEach(() => {
-    wrapper = mount(
+    wrapper = shallow(
       <Provider store={mockStore}>
-        <App />
+        <TableComponent />
       </Provider>,
     );
   });

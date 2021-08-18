@@ -10,7 +10,7 @@ export type URL = {
   expiry_date: Date;
 };
 
-interface UrlState {
+export interface UrlState {
   allUrl: URL[];
   loadingList: boolean;
   addingUrl: boolean;
@@ -18,7 +18,7 @@ interface UrlState {
   addUrlError: string | null;
 }
 
-const initialState: UrlState = {
+export const initialState: UrlState = {
   loadingList: false,
   allUrl: [],
   addingUrl: false,

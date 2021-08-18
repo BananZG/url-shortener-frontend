@@ -23,7 +23,11 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(event.target.value);
   };
-  const clear = (): void => {
+  const onSubmit = (): void => {
+    dispatch(addUrl(url));
+    setUrl('');
+  };
+  const onClear = (): void => {
     dispatch(clearAddUrlState());
   };
   return (
@@ -31,6 +35,7 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
       <Box component="h2">Paste your URL below</Box>
       <Box display="flex" maxWidth={600}>
         <TextField
+          data-testid="url-tf"
           variant="outlined"
           fullWidth
           value={url}
@@ -38,24 +43,22 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
         />
         {(loading && (
           <IconButton>
-            <CircularProgress />
+            <CircularProgress data-testid="circular-progress-btn" />
           </IconButton>
         )) || (
           <Button
             disabled={!url.length}
             variant="contained"
             color="primary"
-            onClick={() => {
-              dispatch(addUrl(url));
-              setUrl('');
-            }}
+            data-testid="shorten-btn"
+            onClick={onSubmit}
           >
             Go!
           </Button>
         )}
       </Box>
       {!!newUrl && (
-        <Alert severity="success" onClose={clear}>
+        <Alert severity="success" onClose={onClear}>
           <AlertTitle>Success</AlertTitle>
           Generated:{' '}
           <Link href={newUrl.shortUrl} target="_blank">
@@ -64,7 +67,7 @@ export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
         </Alert>
       )}
       {!!newUrlError && (
-        <Alert severity="error" onClose={clear}>
+        <Alert severity="error" onClose={onClear}>
           <AlertTitle>Error</AlertTitle>
           Generation failed: {newUrlError}
         </Alert>

@@ -6,13 +6,13 @@ import { LinearProgress, Link, TableCell, TableRow } from '@material-ui/core';
 import type { URL } from '../redux/url/urlSlice';
 import { CellConfig, CellType, formatDate } from './config';
 
-export interface TableBodyProps {
+export interface TableBodyRowsProps {
   loading: boolean;
   rows: URL[];
   config: CellConfig[];
 }
 
-export const TableBodyRows: FC<TableBodyProps> = ({
+export const TableBodyRows: FC<TableBodyRowsProps> = ({
   loading,
   rows,
   config,
@@ -21,7 +21,7 @@ export const TableBodyRows: FC<TableBodyProps> = ({
     return (
       <TableRow>
         <TableCell colSpan={config.length}>
-          <LinearProgress />
+          <LinearProgress data-testid="linear-progress-bar" />
         </TableCell>
       </TableRow>
     );
@@ -29,7 +29,9 @@ export const TableBodyRows: FC<TableBodyProps> = ({
   if (!rows.length) {
     return (
       <TableRow>
-        <TableCell colSpan={config.length}>NO DATA</TableCell>
+        <TableCell data-testid="table-no-data" colSpan={config.length}>
+          NO DATA
+        </TableCell>
       </TableRow>
     );
   }
