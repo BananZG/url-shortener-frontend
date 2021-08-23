@@ -16,6 +16,7 @@ const App: FC = (): ReactElement => {
         maxWidth={600}
         height={120}
         padding={4}
+        marginBottom={8}
       />
       <Card style={{ margin: 30 }}>
         <TableComponent />
