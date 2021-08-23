@@ -1,10 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { shallow, ShallowWrapper } from 'enzyme';
-import { Table, TableBody } from '@material-ui/core';
 
 import { TableComponent } from './table.component';
-import { createMockStore } from '../utils/test/mockStore';
+import { createMockStore } from '../../utils/test/mockStore';
 
 describe('TableComponent', () => {
   let wrapper: ShallowWrapper;

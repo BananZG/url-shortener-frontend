@@ -10,10 +10,10 @@ import {
   TableRow,
 } from '@material-ui/core';
 
-import { config } from './config';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { fetchAllUrls } from '../redux/url/urlSlice';
-import { TableBodyRows } from './table-body-rows.component';
+import { config } from '../../utils/table/config';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import { fetchAllUrls } from '../../redux/url/url.actions';
+import { TableBodyRows } from '../table-rows/table-rows.component';
 
 export const TableComponent: FC = ({}): ReactElement => {
   const dispatch = useAppDispatch();
@@ -27,13 +27,13 @@ export const TableComponent: FC = ({}): ReactElement => {
       <Table stickyHeader>
         <TableHead>
           <TableRow>
-            {config.map(({ key, label }) => (
-              <TableCell key={key}>{label}</TableCell>
+            {config.map(({ key, label }, i) => (
+              <TableCell key={`${i}_${key}`}>{label}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableBodyRows loading={loading} rows={rows} config={config} />
+          <TableBodyRows loading={loading} rows={rows} />
         </TableBody>
       </Table>
     </TableContainer>

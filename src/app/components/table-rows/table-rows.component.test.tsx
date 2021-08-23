@@ -2,33 +2,27 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Table, TableBody } from '@material-ui/core';
 
-import type { TableBodyRowsProps } from './table-body-rows.component';
-import { TableBodyRows } from './table-body-rows.component';
-import { config } from './config';
+import type { TableBodyRowsProps } from './table-rows.component';
+import { TableBodyRows } from './table-rows.component';
+import { createMockStore, dummyUrl } from '../../utils/test/mockStore';
+import { Provider } from 'react-redux';
 
 describe('TableBodyRows', () => {
+  const store = createMockStore();
   const defaultProps: TableBodyRowsProps = {
-    config,
     loading: false,
-    rows: [
-      {
-        _id: '',
-        longUrl: 'https://example.com',
-        shortUrl: 'https://e.com/a',
-        shortenId: 'a',
-        created_date: new Date(),
-        expiry_date: new Date(),
-      },
-    ],
+    rows: [dummyUrl],
   };
 
   const render = (props: TableBodyRowsProps) =>
     mount(
-      <Table>
-        <TableBody>
-          <TableBodyRows {...props} />
-        </TableBody>
-      </Table>,
+      <Provider store={store}>
+        <Table>
+          <TableBody>
+            <TableBodyRows {...props} />
+          </TableBody>
+        </Table>
+      </Provider>,
     );
 
   it('should render correctly', () => {

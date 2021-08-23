@@ -1,20 +1,14 @@
 import moment from 'moment';
 
-const dateFormat = 'DD/MM/YYYY';
+import type { URL } from '../../redux/url/url.models';
 
-type URL = {
-  _id: string;
-  longUrl: string;
-  shortUrl: string;
-  shortenId: string;
-  created_date: Date;
-  expiry_date: Date;
-};
+const dateFormat = 'DD/MM/YYYY';
 
 export enum CellType {
   Label,
   Date,
   Link,
+  Delete,
 }
 
 export type CellConfig = {
@@ -23,7 +17,12 @@ export type CellConfig = {
   type: CellType;
 };
 
-export const config: CellConfig[] = [
+export const config: readonly CellConfig[] = Object.freeze([
+  {
+    key: '_id',
+    label: 'Delete',
+    type: CellType.Delete,
+  },
   {
     key: '_id',
     label: 'ID',
@@ -54,7 +53,7 @@ export const config: CellConfig[] = [
     label: 'Expiry Date',
     type: CellType.Date,
   },
-];
+]);
 
 export const formatDate = (date: string | Date): string =>
   moment(date).format(dateFormat);

@@ -3,19 +3,18 @@ import { FC, ReactElement } from 'react';
 import React from 'react';
 import { LinearProgress, Link, TableCell, TableRow } from '@material-ui/core';
 
-import type { URL } from '../redux/url/urlSlice';
-import { CellConfig, CellType, formatDate } from './config';
+import type { URL } from '../../redux/url/url.models';
+import { config, CellType, formatDate } from '../../utils/table/config';
+import { DeleteDialog } from '../delete-dialog/delete.dialog';
 
 export interface TableBodyRowsProps {
   loading: boolean;
   rows: URL[];
-  config: CellConfig[];
 }
 
 export const TableBodyRows: FC<TableBodyRowsProps> = ({
   loading,
   rows,
-  config,
 }): ReactElement => {
   if (loading) {
     return (
@@ -39,7 +38,7 @@ export const TableBodyRows: FC<TableBodyRowsProps> = ({
     <>
       {rows.map((row, i) => (
         <TableRow key={i}>
-          {config.map(({ key, type }) => {
+          {config.map(({ key, type }, j) => {
             let value: any = row[key];
             switch (type) {
               case CellType.Label:
@@ -53,9 +52,13 @@ export const TableBodyRows: FC<TableBodyRowsProps> = ({
                     {value}
                   </Link>
                 );
+                break;
+              case CellType.Delete:
+                value = <DeleteDialog url={row} />;
+                break;
             }
             return (
-              <TableCell component="th" key={key}>
+              <TableCell component="th" key={`${j}_${key}`}>
                 {value}
               </TableCell>
             );

@@ -1,22 +1,6 @@
-import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
-import { axiosInstance } from '../../utils/network/axios.util';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type URL = {
-  _id: string;
-  longUrl: string;
-  shortUrl: string;
-  shortenId: string;
-  created_date: Date;
-  expiry_date: Date;
-};
-
-export interface UrlState {
-  allUrl: URL[];
-  loadingList: boolean;
-  addingUrl: boolean;
-  tempUrlInfo: URL | null;
-  addUrlError: string | null;
-}
+import type { URL, UrlState } from './url.models';
 
 export const initialState: UrlState = {
   loadingList: false,
@@ -24,6 +8,8 @@ export const initialState: UrlState = {
   addingUrl: false,
   tempUrlInfo: null,
   addUrlError: null,
+  deletingUrl: false,
+  deleteUrlError: null,
 };
 
 export const urlSlice = createSlice({
@@ -67,6 +53,27 @@ export const urlSlice = createSlice({
         addUrlError: action.payload,
       };
     },
+    deleteUrlStart: (state) => {
+      return {
+        ...state,
+        deletingUrl: true,
+        deleteUrlError: null,
+      };
+    },
+    deleteUrlSuccess: (state) => {
+      return {
+        ...state,
+        deletingUrl: false,
+        deleteUrlError: null,
+      };
+    },
+    deleteUrlFailure: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        deletingUrl: false,
+        deleteUrlError: action.payload,
+      };
+    },
     clearAddUrlState: (state) => {
       return {
         ...state,
@@ -85,30 +92,9 @@ export const {
   addUrlSuccess,
   addUrlFailure,
   clearAddUrlState,
+  deleteUrlStart,
+  deleteUrlSuccess,
+  deleteUrlFailure,
 } = urlSlice.actions;
-
-export const fetchAllUrls = () => async (dispatch: Dispatch) => {
-  dispatch(loadingList());
-  const { data } = await axiosInstance.get<URL[]>(`url`);
-  dispatch(urlsReceived(data));
-};
-
-export const addUrl = (longUrl: string) => async (dispatch: Dispatch) => {
-  dispatch(addUrlStart());
-  try {
-    const { data } = await axiosInstance.post('url', {
-      longUrl,
-    });
-    const { newUrl } = data;
-    dispatch(addUrlSuccess(newUrl));
-    fetchAllUrls()(dispatch);
-  } catch (error) {
-    if (error.response) {
-      dispatch(addUrlFailure(error.response.data.message));
-    } else {
-      dispatch(addUrlFailure(error.message));
-    }
-  }
-};
 
 export default urlSlice.reducer;

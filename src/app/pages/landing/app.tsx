@@ -3,8 +3,8 @@ import type { FC, ReactElement } from 'react';
 import React from 'react';
 import { Card } from '@material-ui/core';
 
-import { InputComponent } from './input.component';
-import { TableComponent } from './table.component';
+import { InputComponent } from '../../components/input/input.component';
+import { TableComponent } from '../../components/table/table.component';
 
 const App: FC = (): ReactElement => {
   return (

@@ -1,10 +1,10 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Alert } from '@material-ui/lab';
 
 import { InputComponent } from './input.component';
-import { createMockStore } from '../utils/test/mockStore';
+import { createMockStore, dummyUrl } from '../../utils/test/mockStore';
 
 describe('InputComponent', () => {
   const mockStore = createMockStore();
@@ -47,15 +47,10 @@ describe('InputComponent', () => {
         loadingList: false,
         allUrl: [],
         addingUrl: false,
-        tempUrlInfo: {
-          _id: '',
-          longUrl: 'https://example.com/',
-          shortUrl: 'https://e.com/a',
-          shortenId: 'a',
-          created_date: new Date(),
-          expiry_date: new Date(),
-        },
+        tempUrlInfo: dummyUrl,
         addUrlError: null,
+        deletingUrl: false,
+        deleteUrlError: null,
       }),
     );
     expect(
@@ -76,6 +71,8 @@ describe('InputComponent', () => {
         addingUrl: false,
         tempUrlInfo: null,
         addUrlError: 'Error',
+        deletingUrl: false,
+        deleteUrlError: null,
       }),
     );
 
@@ -96,6 +93,8 @@ describe('InputComponent', () => {
         addingUrl: true,
         tempUrlInfo: null,
         addUrlError: null,
+        deletingUrl: false,
+        deleteUrlError: null,
       }),
     );
     expect(

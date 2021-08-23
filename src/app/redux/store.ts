@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import urlReducer from './url/urlSlice';
+import urlReducer from './url/url.slice';
 
 export const store = configureStore({
   reducer: {

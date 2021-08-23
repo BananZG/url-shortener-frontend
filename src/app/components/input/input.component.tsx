@@ -11,8 +11,8 @@ import {
   TextField,
 } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { useAppDispatch, useAppSelector } from '../redux/hook';
-import { addUrl, clearAddUrlState } from '../redux/url/urlSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import { addUrl, clearAddUrlState } from '../../redux/url/url.actions';
 
 export const InputComponent: FC<BoxProps> = ({ ...props }): ReactElement => {
   const [url, setUrl] = useState('');
